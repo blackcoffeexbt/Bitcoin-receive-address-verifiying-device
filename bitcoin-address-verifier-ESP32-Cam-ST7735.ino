@@ -20,7 +20,7 @@ ESP32QRCodeReader reader(CAMERA_MODEL_AI_THINKER);
 Adafruit_ST7735 tft = Adafruit_ST7735(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST);
 
 String pub = "zpub6r6Fo22jHfnfmyXKRDtq7WNquZ4WynwUgBbfVXdXLJA8jipdaeULX1CTSLcmnwgmMcWMdiqFm63bPG5pyLXiP6V6nvnzT5QJXb7TYrdz5YG";
-int32_t maxAddresses = 2000;
+int32_t maxAddresses = 200;
 
 bool hasDecodedQr = false;
 const char* payload;
@@ -114,11 +114,13 @@ void checkIsValidAddress(String addressToCheck) {
   Serial.println("Checking " + addressToCheck);
 
   tft.fillScreen(ST77XX_BLACK);
-  tft_drawtext(0, 10, "Checking address", 1, ST7735_BLUE);
+  tft_drawtext(0, 5, "Checking address", 1, ST7735_BLUE);
   tft_drawtext(0, 20, addressToCheck, 1, ST7735_BLUE);
-  tft_drawtext(0, 60, "Can be derived", 1, ST7735_BLUE);
-  tft_drawtext(0, 70, "from xpub:", 1, ST7735_BLUE);
-  tft_drawtext(0, 80, pub, 1, ST7735_BLUE);
+  tft_drawtext(0, 45, "Can be derived", 1, ST7735_BLUE);
+  tft_drawtext(0, 50, "from xpub:", 1, ST7735_BLUE);
+  tft_drawtext(0, 70, pub, 1, ST7735_BLUE);
+  tft_drawtext(0, 130, "This may take some", 1, ST7735_BLUE);
+  tft_drawtext(0, 140, "time....", 1, ST7735_BLUE);
   
   HDPublicKey hd(pub);
 
@@ -132,8 +134,11 @@ void checkIsValidAddress(String addressToCheck) {
 //  Serial.println("First 5 receiving addresses:");
   for(int32_t i=0; i<maxAddresses; i++){
     String path = String("m/0/")+i;
-    Serial.println(i);
-     Serial.println(hd.derive(path).segwitAddress());
+      Serial.println(i);
+//     Serial.println(hd.derive(path).segwitAddress());
+//     tft.fillScreen(ST77XX_BLACK);
+//     tft_drawtext(10, 80, "Checking address " + String(i), 1, ST7735_BLUE);
+     
      if(addressToCheck == (String)hd.derive(path).segwitAddress()) {
       i = maxAddresses;
       foundAddress = true;
