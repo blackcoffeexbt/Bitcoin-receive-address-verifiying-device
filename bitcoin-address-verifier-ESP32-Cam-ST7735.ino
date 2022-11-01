@@ -117,7 +117,7 @@ void checkIsValidAddress(String addressToCheck) {
   tft_drawtext(0, 5, "Checking address", 1, ST7735_BLUE);
   tft_drawtext(0, 20, addressToCheck, 1, ST7735_BLUE);
   tft_drawtext(0, 45, "Can be derived", 1, ST7735_BLUE);
-  tft_drawtext(0, 50, "from xpub:", 1, ST7735_BLUE);
+  tft_drawtext(0, 55, "from xpub:", 1, ST7735_BLUE);
   tft_drawtext(0, 70, pub, 1, ST7735_BLUE);
   tft_drawtext(0, 130, "This may take some", 1, ST7735_BLUE);
   tft_drawtext(0, 140, "time....", 1, ST7735_BLUE);
