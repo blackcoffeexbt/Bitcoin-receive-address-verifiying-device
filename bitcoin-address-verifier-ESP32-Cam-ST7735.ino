@@ -109,6 +109,7 @@ void tft_drawtext(int16_t x, int16_t y, String text, uint8_t font_size, uint16_t
 }
 
 void checkIsValidAddress(String addressToCheck) {
+  bool foundAddress = false;
   addressToCheck.replace("bitcoin:", "");
   Serial.println("Checking " + addressToCheck);
 
@@ -135,23 +136,25 @@ void checkIsValidAddress(String addressToCheck) {
      Serial.println(hd.derive(path).segwitAddress());
      if(addressToCheck == (String)hd.derive(path).segwitAddress()) {
       i = maxAddresses;
+      foundAddress = true;
       Serial.println("Found address");
-      tft.fillScreen(ST77XX_BLACK);
-      tft_drawtext(0, 10, addressToCheck, 1, ST7735_GREEN);
-      tft_drawtext(10, 45, "Is valid", 2, ST7735_GREEN);
-      tft_drawtext(10, 80, "Reset to check", 1, ST7735_GREEN);
-      tft_drawtext(10, 90, "another address", 1, ST7735_GREEN);
      }
-//     tft.fillScreen(ST77XX_BLACK);
-//     tft_drawtext(4,4, "Address #" + (String)i, 1, ST7735_BLUE);
-//     tft_drawtext(4,10, hd.derive(path + i).segwitAddress(), 1, ST7735_BLUE);
   }
-  tft.fillScreen(ST77XX_BLACK);
-  tft_drawtext(10, 10, "Sorry :(", 2, ST7735_RED);
-  tft_drawtext(10, 40, "I didn't find", 1, ST7735_RED);
-  tft_drawtext(10, 50, "this address", 1, ST7735_RED);
-  tft_drawtext(10, 60, "in the first " + (String)maxAddresses, 1, ST7735_RED);
-  tft_drawtext(10, 70, "receive addresses.", 1, ST7735_RED);
-  tft_drawtext(10, 90, "Reset to scan", 1, ST7735_BLUE);
-  tft_drawtext(10, 100, "another.", 1, ST7735_BLUE);
+
+  if(foundAddress) {
+    tft.fillScreen(ST77XX_BLACK);
+    tft_drawtext(0, 10, addressToCheck, 1, ST7735_GREEN);
+    tft_drawtext(10, 45, "Is valid", 2, ST7735_GREEN);
+    tft_drawtext(10, 80, "Reset to check", 1, ST7735_GREEN);
+    tft_drawtext(10, 90, "another address", 1, ST7735_GREEN);
+  } else {      
+    tft.fillScreen(ST77XX_BLACK);
+    tft_drawtext(10, 10, "Sorry :(", 2, ST7735_RED);
+    tft_drawtext(10, 40, "I didn't find", 1, ST7735_RED);
+    tft_drawtext(10, 50, "this address", 1, ST7735_RED);
+    tft_drawtext(10, 60, "in the first " + (String)maxAddresses, 1, ST7735_RED);
+    tft_drawtext(10, 70, "receive addresses.", 1, ST7735_RED);
+    tft_drawtext(10, 90, "Reset to scan", 1, ST7735_BLUE);
+    tft_drawtext(10, 100, "another.", 1, ST7735_BLUE);
+  }
 }
