@@ -19,6 +19,9 @@ ESP32QRCodeReader reader(CAMERA_MODEL_AI_THINKER);
 
 Adafruit_ST7735 tft = Adafruit_ST7735(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST);
 
+String pub = "zpub6r6Fo22jHfnfmyXKRDtq7WNquZ4WynwUgBbfVXdXLJA8jipdaeULX1CTSLcmnwgmMcWMdiqFm63bPG5pyLXiP6V6nvnzT5QJXb7TYrdz5YG";
+int32_t maxAddresses = 2000;
+
 bool hasDecodedQr = false;
 const char* payload;
 const char* payloadMessage;
@@ -108,8 +111,6 @@ void tft_drawtext(int16_t x, int16_t y, String text, uint8_t font_size, uint16_t
 void checkIsValidAddress(String addressToCheck) {
   addressToCheck.replace("bitcoin:", "");
   Serial.println("Checking " + addressToCheck);
-  
-  String pub = "zpub6r6Fo22jHfnfmyXKRDtq7WNquZ4WynwUgBbfVXdXLJA8jipdaeULX1CTSLcmnwgmMcWMdiqFm63bPG5pyLXiP6V6nvnzT5QJXb7TYrdz5YG";
 
   tft.fillScreen(ST77XX_BLACK);
   tft_drawtext(0, 10, "Checking address", 1, ST7735_BLUE);
@@ -127,7 +128,6 @@ void checkIsValidAddress(String addressToCheck) {
 
 //  Serial.println("Master public key:");
 //  Serial.println(hd);
-  int32_t maxAddresses = 1000;
 //  Serial.println("First 5 receiving addresses:");
   for(int32_t i=0; i<maxAddresses; i++){
     String path = String("m/0/")+i;
@@ -146,4 +146,12 @@ void checkIsValidAddress(String addressToCheck) {
 //     tft_drawtext(4,4, "Address #" + (String)i, 1, ST7735_BLUE);
 //     tft_drawtext(4,10, hd.derive(path + i).segwitAddress(), 1, ST7735_BLUE);
   }
+  tft.fillScreen(ST77XX_BLACK);
+  tft_drawtext(10, 10, "Sorry :(", 2, ST7735_RED);
+  tft_drawtext(10, 40, "I didn't find", 1, ST7735_RED);
+  tft_drawtext(10, 50, "this address", 1, ST7735_RED);
+  tft_drawtext(10, 60, "in the first " + (String)maxAddresses, 1, ST7735_RED);
+  tft_drawtext(10, 70, "receive addresses.", 1, ST7735_RED);
+  tft_drawtext(10, 90, "Reset to scan", 1, ST7735_BLUE);
+  tft_drawtext(10, 100, "another.", 1, ST7735_BLUE);
 }

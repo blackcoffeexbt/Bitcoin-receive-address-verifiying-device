@@ -3,6 +3,13 @@ Bitcoin address verifier device
 
 For use with ST3375 and ESP32-Cam
 
+1. Set an xpub on line 22
+1. Set a maxAddress limit. This is the max number of addresses that will be derived from the xpub when checking the scanned address
+1. Connect ST7735 to ESP32-Cam
+1. Set board as AI Thinker ESP32-CAM
+1. Upload to ESP-32
+1. Scan a QR code
+
 
 Pin setup
 ----
